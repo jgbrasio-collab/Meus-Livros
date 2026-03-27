@@ -1,945 +1,586 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Catálogo de Obras</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J. G. Brasio — E-books</title>
+  <meta name="description" content="Livros de João Gilberto de Camargo Brasio — filosofia, ficção, reflexão e direito." />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --ink:      #0e0c0a;
-      --ink2:     #1c1814;
-      --cream:    #f2ead8;
-      --parchment:#e8dfc8;
-      --gold:     #c8922a;
-      --gold2:    #e8b84b;
-      --rust:     #a03a18;
-      --muted:    #7a6e5e;
-      --border:   rgba(200,180,140,0.18);
-      --border2:  rgba(200,180,140,0.35);
-    }
+      --bg: #0f1115;
+      --bg2: #171b22;
+      --card: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.10);
+      --text: #f3efe7;
+      --muted: #c7c1b4;
+      --gold: #d4b483;
+      --gold-2: #e7c99c;
+      --shadow: 0 18px 45px rgba(0,0,0,.28);
+      --radius: 24px;
+      --max: 1180px;
+    }* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(212,180,131,.12), transparent 28%),
+    linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+}
 
-    html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
 
-    body {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      background: var(--ink);
-      color: var(--cream);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+.container {
+  width: min(calc(100% - 28px), var(--max));
+  margin: 0 auto;
+}
 
-    /* grain texture */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 999;
-    }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  background: rgba(15,17,21,.75);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
 
-    /* ── SIDE RULE ── */
-    .side-rule {
-      position: fixed;
-      left: 32px; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold) 80%, transparent 100%);
-      opacity: 0.25;
-    }
+.topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+}
 
-    /* ── HEADER ── */
-    header {
-      padding: 80px 80px 60px 80px;
-      border-bottom: 1px solid var(--border);
-      position: relative;
-    }
+.brand {
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-size: .92rem;
+}
 
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 32px;
-    }
+.nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: .95rem;
+}
 
-    .author-block { max-width: 600px; }
+.nav a:hover { color: var(--text); }
 
-    .label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 16px;
-    }
+.hero {
+  padding: 68px 0 34px;
+}
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(44px, 7vw, 80px);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--cream);
-      margin-bottom: 20px;
-    }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 30px;
+  align-items: center;
+}
 
-    h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
+.eyebrow {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: .86rem;
+  margin-bottom: 18px;
+}
 
-    .author-bio {
-      font-size: 18px;
-      font-weight: 300;
-      font-style: italic;
-      line-height: 1.6;
-      color: var(--muted);
-      max-width: 480px;
-    }
+h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2.3rem, 5vw, 4.7rem);
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  font-weight: 600;
+}
 
-    .header-stats {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 16px;
-      padding-top: 8px;
-    }
+.lead {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 1.14rem;
+  max-width: 760px;
+  line-height: 1.65;
+}
 
-    .stat {
-      text-align: right;
-    }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      font-weight: 900;
-      line-height: 1;
-      color: var(--cream);
-    }
-    .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+.authority {
+  margin: 22px 0 28px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--gold);
+  background: rgba(255,255,255,.04);
+  border-radius: 0 16px 16px 0;
+  color: #dfd8cb;
+  max-width: 760px;
+}
 
-    .divider-h {
-      display: flex; align-items: center; gap: 16px;
-      margin-top: 48px;
-    }
-    .divider-h hr { flex: 1; border: none; border-top: 1px solid var(--border2); }
-    .divider-h span { color: var(--gold); font-size: 14px; opacity: 0.7; }
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
 
-    /* ── EDIT BANNER ── */
-    .edit-bar {
-      background: var(--ink2);
-      border-bottom: 1px solid var(--border);
-      padding: 0 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform .18s ease;
+}
 
-    .edit-fields {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0;
-      flex: 1;
-    }
+.btn:hover { transform: translateY(-2px); }
 
-    .edit-field {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 24px 14px 0;
-      border-right: 1px solid var(--border);
-      margin-right: 24px;
-    }
-    .edit-field:last-child { border-right: none; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-2));
+  color: #1c1812;
+  box-shadow: 0 12px 28px rgba(212,180,131,.20);
+}
 
-    .edit-field label {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-    }
+.btn-secondary {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.10);
+  color: var(--text);
+}
 
-    .edit-field input {
-      background: none;
-      border: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      color: var(--cream);
-      outline: none;
-      min-width: 160px;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
-      padding: 2px 0;
-    }
-    .edit-field input:focus { border-bottom-color: var(--gold); }
-    .edit-field input::placeholder { color: var(--muted); font-style: italic; }
+.hero-card {
+  border: 1px solid rgba(255,255,255,.10);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
 
-    .btn-save-header {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      padding: 8px 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .btn-save-header:hover { border-color: var(--gold); color: var(--gold); }
+.portrait {
+  min-height: 420px;
+  border-radius: 22px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  color: #eadfcb;
+  background:
+    linear-gradient(180deg, rgba(212,180,131,.16), rgba(255,255,255,.02)),
+    linear-gradient(135deg, #4b3828, #191c22);
+  border: 1px solid rgba(255,255,255,.08);
+}
 
-    /* ── BOOK LIST ── */
-    main { padding: 0 80px 100px; }
+.hero-quote {
+  margin: 16px 0 10px;
+  font-size: 1.06rem;
+  color: #ede5d8;
+}
 
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 32px 0 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 0;
-    }
+.hero-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: .96rem;
+}
 
-    .list-header-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+section { padding: 32px 0; }
 
-    /* book entry */
-    .book-entry {
-      display: grid;
-      grid-template-columns: 60px 120px 1fr auto;
-      gap: 0 28px;
-      align-items: start;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      transition: background 0.2s;
-      animation: fadeUp 0.5s ease both;
-    }
+.section-title {
+  margin: 0 0 10px;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  letter-spacing: -.03em;
+}
 
-    /* cover image */
-    .book-cover-img {
-      width: 120px;
-      height: 176px;
-      object-fit: cover;
-      display: block;
-      box-shadow: 4px 6px 20px rgba(0,0,0,0.5);
-      border: 1px solid var(--border2);
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
-    }
-    .book-entry:hover .book-cover-img {
-      transform: translateY(-4px) rotate(-1deg);
-      box-shadow: 8px 14px 32px rgba(0,0,0,0.6);
-    }
+.section-text {
+  color: var(--muted);
+  margin: 0 0 24px;
+  max-width: 760px;
+  font-size: 1.04rem;
+  line-height: 1.65;
+}
 
-    .book-cover-placeholder {
-      width: 120px;
-      height: 176px;
-      background: var(--ink2);
-      border: 1px dashed var(--border2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: center;
-      padding: 12px;
-    }
-    .book-cover-placeholder:hover { border-color: var(--gold); color: var(--gold); }
+.highlight {
+  display: grid;
+  grid-template-columns: .95fr 1.05fr;
+  gap: 26px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.09);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
 
-    .book-entry::before {
-      content: '';
-      position: absolute;
-      left: -80px; right: -80px; top: 0; bottom: 0;
-      background: rgba(200,146,42,0.03);
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .book-entry:hover::before { opacity: 1; }
+.highlight-cover {
+  min-height: 420px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(66,120,205,.35), rgba(10,14,24,.55));
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+}
 
-    /* cover upload in modal */
-    .cover-upload-area {
-      width: 100%;
-      border: 1px dashed var(--border2);
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 16px;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-    .cover-upload-area:hover { border-color: var(--gold); }
+.cover-text {
+  font-size: 1.8rem;
+  line-height: 1.08;
+  max-width: 260px;
+}
 
-    .cover-preview {
-      width: 72px; height: 104px;
-      object-fit: cover;
-      border: 1px solid var(--border2);
-      flex-shrink: 0;
-      display: none;
-    }
-    .cover-preview.visible { display: block; }
+.badge {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(212,180,131,.14);
+  border: 1px solid rgba(212,180,131,.18);
+  color: #ecd7b8;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .82rem;
+  margin-bottom: 12px;
+}
 
-    .cover-placeholder-icon {
-      width: 72px; height: 104px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; flex-shrink: 0;
-      color: var(--muted);
-    }
+.highlight h3 {
+  margin: 0 0 10px;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.08;
+}
 
-    .cover-upload-info { flex: 1; }
-    .cover-upload-info strong {
-      display: block;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cream);
-      margin-bottom: 6px;
-    }
-    .cover-upload-info span {
-      font-size: 13px;
-      color: var(--muted);
-      font-style: italic;
-      line-height: 1.5;
-    }
-    .cover-upload-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      padding: 6px 14px;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: all 0.2s;
-      display: inline-block;
-    }
-    .cover-upload-btn:hover { border-color: var(--gold); color: var(--gold); }
+.highlight p {
+  color: var(--muted);
+  margin: 0 0 14px;
+  line-height: 1.65;
+}
 
-    .book-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      font-weight: 900;
-      color: rgba(200,146,42,0.18);
-      line-height: 1;
-      padding-top: 4px;
-      transition: color 0.3s;
-      user-select: none;
-    }
-    .book-entry:hover .book-num { color: rgba(200,146,42,0.4); }
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
 
-    .book-body { min-width: 0; }
+.book-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, border-color .18s ease;
+}
 
-    .book-tags {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
+.book-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212,180,131,.28);
+}
 
-    .book-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(200,146,42,0.3);
-      padding: 3px 10px;
-    }
+.book-cover {
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  color: #f6efe4;
+}
 
-    .book-title-main {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 700;
-      line-height: 1.1;
-      color: var(--cream);
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
+.cover-blue { background: linear-gradient(180deg, #1043a8, #08132b); }
+.cover-gold { background: linear-gradient(180deg, #4e3d22, #151313); }
+.cover-night { background: linear-gradient(180deg, #13244c, #090d17); }
+.cover-jungle { background: linear-gradient(180deg, #3b2e1d, #15110d); }
+.cover-green { background: linear-gradient(180deg, #184721, #09110b); }
+.cover-warm { background: linear-gradient(180deg, #8c5a36, #221612); }
+.cover-light { background: linear-gradient(180deg, #cbb8a0, #746552); }
 
-    .book-subtitle {
-      font-size: 16px;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
+.cover-label {
+  font-size: 1.3rem;
+  line-height: 1.08;
+  max-width: 230px;
+}
 
-    .book-desc-main {
-      font-size: 17px;
-      font-weight: 300;
-      line-height: 1.65;
-      color: rgba(242,234,216,0.65);
-      max-width: 600px;
-    }
+.book-content {
+  padding: 20px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 
-    .book-actions-side {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 12px;
-      padding-top: 4px;
-      min-width: 140px;
-    }
+.book-content h3 {
+  margin: 0 0 8px;
+  font-size: 1.22rem;
+  line-height: 1.18;
+}
 
-    .btn-buy {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: var(--gold);
-      color: var(--ink);
-      border: none;
-      padding: 12px 24px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: 500;
-      transition: background 0.2s, transform 0.15s;
-      white-space: nowrap;
-    }
-    .btn-buy:hover { background: var(--gold2); transform: translateY(-2px); }
-    .btn-buy.disabled {
-      background: none;
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      cursor: default;
-      transform: none;
-    }
+.book-content p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: .98rem;
+  line-height: 1.6;
+  flex: 1;
+}
 
-    .btn-edit-book {
-      background: none; border: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      transition: color 0.2s;
-      padding: 4px 0;
-    }
-    .btn-edit-book:hover { color: var(--cream); }
+.book-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-    /* ── ADD BOOK ROW ── */
-    .add-row {
-      padding: 32px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--border);
-    }
+.book-actions a {
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 12px 14px;
+  border-radius: 999px;
+  font-size: .93rem;
+  font-weight: 600;
+}
 
-    .btn-add {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px dashed var(--border2);
-      color: var(--muted);
-      padding: 14px 40px;
-      cursor: pointer;
-      transition: all 0.25s;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .btn-add:hover { border-color: var(--gold); color: var(--gold); border-style: solid; }
+.amazon {
+  background: rgba(212,180,131,.95);
+  color: #1d1811;
+}
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(8,6,4,0.8);
-      z-index: 500;
-      align-items: center; justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(4px);
-    }
-    .modal-overlay.open { display: flex; }
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
 
-    .modal {
-      background: var(--ink2);
-      border: 1px solid var(--border2);
-      padding: 48px;
-      max-width: 600px; width: 100%;
-      position: relative;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,146,42,0.1);
-      max-height: 90vh; overflow-y: auto;
-      animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    }
+.about-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
 
-    .modal-close {
-      position: absolute; top: 20px; right: 20px;
-      background: none; border: none; color: var(--muted);
-      font-size: 20px; cursor: pointer; transition: color 0.2s;
-    }
-    .modal-close:hover { color: var(--cream); }
+.about-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.34rem;
+}
 
-    .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px; font-weight: 700;
-      color: var(--cream); margin-bottom: 6px;
-    }
-    .modal > p { font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 32px; }
+.about-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
 
-    .form-row { margin-bottom: 20px; }
-    .form-row label {
-      display: block;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .form-row input, .form-row textarea {
-      width: 100%;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border2);
-      color: var(--cream); padding: 10px 14px;
-      outline: none; transition: border-color 0.2s;
-      border-radius: 0;
-    }
-    .form-row input:focus, .form-row textarea:focus { border-color: var(--gold); }
-    .form-row input::placeholder, .form-row textarea::placeholder { color: var(--muted); font-style: italic; }
-    .form-row textarea { resize: vertical; min-height: 90px; }
+.closing {
+  text-align: center;
+  padding-bottom: 80px;
+}
 
-    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.closing-box {
+  border: 1px solid rgba(255,255,255,.09);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border-radius: 28px;
+  padding: 34px 24px;
+  box-shadow: var(--shadow);
+  max-width: 880px;
+  margin: 0 auto;
+}
 
-    .btn-modal-submit {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: var(--gold); color: var(--ink);
-      border: none; padding: 14px 32px;
-      cursor: pointer; width: 100%; margin-top: 8px;
-      font-weight: 500; transition: background 0.2s;
-    }
-    .btn-modal-submit:hover { background: var(--gold2); }
+.closing-box h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.9rem, 3vw, 2.9rem);
+}
 
-    .btn-modal-delete {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px; letter-spacing: 0.2em;
-      text-transform: uppercase;
-      background: none; border: 1px solid rgba(160,58,24,0.4);
-      color: rgba(160,58,24,0.7); padding: 10px 24px;
-      cursor: pointer; width: 100%; margin-top: 8px;
-      transition: all 0.2s;
-    }
-    .btn-modal-delete:hover { background: var(--rust); color: var(--cream); border-color: var(--rust); }
+.closing-box p {
+  margin: 0 auto 22px;
+  color: var(--muted);
+  max-width: 650px;
+  line-height: 1.65;
+}
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 40px 80px;
-      border-top: 1px solid var(--border);
-    }
-    .footer-ornament {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: var(--gold);
-      opacity: 0.4;
-      margin-bottom: 12px;
-    }
-    .footer-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px; letter-spacing: 0.25em;
-      text-transform: uppercase; color: var(--muted);
-    }
+footer {
+  padding: 0 0 32px;
+  text-align: center;
+  color: #a39b8f;
+  font-size: .92rem;
+}
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.94) translateY(16px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
+@media (max-width: 980px) {
+  .hero-grid, .highlight, .about { grid-template-columns: 1fr; }
+  .book-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
-    @media (max-width: 768px) {
-      header, main, .edit-bar { padding-left: 24px; padding-right: 24px; }
-      .side-rule { display: none; }
-      .header-stats { flex-direction: row; }
-      .book-entry { grid-template-columns: 80px 1fr; gap: 0 16px; }
-      .book-cover-img, .book-cover-placeholder { width: 80px; height: 116px; }
-      .book-num { display: none; }
-      .book-actions-side { grid-column: 2; flex-direction: row; align-items: center; margin-top: 16px; }
-      .modal { padding: 32px 24px; }
-      .form-row-2 { grid-template-columns: 1fr; }
-    }
+@media (max-width: 640px) {
+  .topbar-inner { flex-direction: column; align-items: flex-start; }
+  .hero { padding-top: 44px; }
+  .book-grid { grid-template-columns: 1fr; }
+  .cta-row, .book-actions { flex-direction: column; }
+  .btn, .book-actions a { width: 100%; }
+}
+
   </style>
 </head>
 <body>
-
-<div class="side-rule"></div>
-
-<!-- ══ HEADER ══ -->
-<header>
-  <div class="header-top">
-    <div class="author-block">
-      <div class="label" id="display-label">Obras Completas</div>
-      <h1 id="display-name">Seu <em>Nome</em></h1>
-      <p class="author-bio" id="display-bio">Escritor(a), contador(a) de histórias. Cada livro é uma porta para outro mundo.</p>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">J. G. Brasio — E-books</div>
+      <nav class="nav">
+        <a href="#destaque">Destaque</a>
+        <a href="#livros">Livros</a>
+        <a href="#autor">Autor</a>
+        <a href="#amazon">Amazon</a>
+      </nav>
     </div>
-    <div class="header-stats">
-      <div class="stat">
-        <div class="stat-num" id="stat-num">0</div>
-        <div class="stat-label">Obras Publicadas</div>
-      </div>
-    </div>
-  </div>
-  <div class="divider-h">
-    <hr/><span>✦</span><hr/>
-  </div>
-</header>
-
-<!-- ══ EDITABLE HEADER BAR ══ -->
-<div class="edit-bar">
-  <div class="edit-fields">
-    <div class="edit-field">
-      <label>Seu nome</label>
-      <input type="text" id="edit-name" placeholder="Seu Nome Completo" oninput="updateHeader()"/>
-    </div>
-    <div class="edit-field">
-      <label>Subtítulo</label>
-      <input type="text" id="edit-label" placeholder="Ex: Obras Completas" oninput="updateHeader()"/>
-    </div>
-    <div class="edit-field">
-      <label>Bio curta</label>
-      <input type="text" id="edit-bio" placeholder="Uma frase sobre você..." oninput="updateHeader()"/>
-    </div>
-  </div>
-  <button class="btn-save-header" onclick="saveHeader()">✦ Salvar</button>
-</div>
-
-<!-- ══ BOOK LIST ══ -->
-<main>
-  <div class="list-header">
-    <span class="list-header-label">Catálogo de Obras</span>
-    <span class="list-header-label" id="list-count">— obras</span>
-  </div>
-  <div id="book-list"></div>
-  <div class="add-row">
-    <button class="btn-add" onclick="openModal()">＋ &nbsp; Adicionar Nova Obra</button>
-  </div>
-</main>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-ornament">❧</div>
-  <div class="footer-text" id="footer-name">Catálogo de Obras</div>
-</footer>
-
-<!-- ══ MODAL ══ -->
-<div class="modal-overlay" id="modal-overlay" onclick="handleOverlay(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2 id="modal-title">Nova Obra</h2>
-    <p id="modal-sub">Preencha os dados do livro.</p>
-
-    <input type="hidden" id="f-id"/>
-
-    <div class="form-row">
-      <label>Título do livro *</label>
-      <input type="text" id="f-title" placeholder="O título da obra..."/>
-    </div>
-    <div class="form-row">
-      <label>Subtítulo (opcional)</label>
-      <input type="text" id="f-subtitle" placeholder="Um subtítulo ou tagline..."/>
-    </div>
-    <div class="form-row-2">
-      <div class="form-row" style="margin-bottom:0">
-        <label>Gênero</label>
-        <input type="text" id="f-genre" placeholder="Romance, Poesia..."/>
-      </div>
-      <div class="form-row" style="margin-bottom:0">
-        <label>Ano</label>
-        <input type="text" id="f-year" placeholder="2024"/>
-      </div>
-    </div>
-    <div class="form-row">
-      <label>Sinopse</label>
-      <textarea id="f-desc" placeholder="Uma descrição da obra que vai despertar a curiosidade do leitor..."></textarea>
-    </div>
-    <div class="form-row">
-      <label>Capa do Livro</label>
-      <div class="cover-upload-area" onclick="document.getElementById('f-cover-file').click()">
-        <div class="cover-placeholder-icon" id="cover-placeholder">📖</div>
-        <img class="cover-preview" id="cover-preview" src="" alt="Prévia da capa"/>
-        <div class="cover-upload-info">
-          <strong>Fazer upload da capa</strong>
-          <span>Clique para escolher uma imagem do seu computador (JPG, PNG)</span>
-          <button class="cover-upload-btn" type="button">Escolher Arquivo</button>
-        </div>
-      </div>
-      <input type="file" id="f-cover-file" accept="image/*" style="display:none" onchange="handleCoverUpload(event)"/>
-      <div style="margin-top:10px">
-        <input type="url" id="f-cover-url" placeholder="Ou cole um link de imagem: https://..." oninput="handleCoverUrl()" style="font-size:14px"/>
-      </div>
-    </div>
-    <div class="form-row">
-      <label>Link de Compra</label>
-      <input type="url" id="f-link" placeholder="https://amazon.com.br/..."/>
-    </div>
-    <div class="form-row">
-      <label>Texto do botão</label>
-      <input type="text" id="f-btn" placeholder="Comprar · Amazon"/>
-    </div>
-
-    <button class="btn-modal-submit" onclick="saveBook()">Publicar Obra</button>
-    <button class="btn-modal-delete" id="btn-delete" style="display:none" onclick="deleteBook()">Remover esta obra</button>
-  </div>
-</div>
-
-<script>
-  // ── DATA ──
-  let data = JSON.parse(localStorage.getItem('catalogo-v2') || 'null') || {
-    author: { name: '', label: 'Obras Completas', bio: '' },
-    books: [
-      { id:1, title:'A Última Carta', subtitle:'Um romance sobre silêncios', genre:'Romance', year:'2021',
-        desc:'Quando Vera encontra uma carta endereçada a ela — escrita há trinta anos por alguém que nunca existiu — o passado e o presente começam a se misturar de forma perturbadora.',
-        link:'', btn:'Comprar · Amazon' },
-      { id:2, title:'Versos da Maré', subtitle:'Poesia reunida 2015–2023', genre:'Poesia', year:'2023',
-        desc:'Uma coleção de poemas que atravessam o amor, a perda e a beleza do cotidiano. Escrita entre noites e madrugadas, cada verso carrega a marca da passagem do tempo.',
-        link:'', btn:'Comprar · Amazon' },
-    ]
-  };
-
-  let currentCoverData = ''; // base64 or URL
-
-  function handleCoverUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      currentCoverData = ev.target.result;
-      showCoverPreview(currentCoverData);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function handleCoverUrl() {
-    const url = document.getElementById('f-cover-url').value.trim();
-    currentCoverData = url;
-    if (url) showCoverPreview(url);
-    else hideCoverPreview();
-  }
-
-  function showCoverPreview(src) {
-    const preview = document.getElementById('cover-preview');
-    const placeholder = document.getElementById('cover-placeholder');
-    preview.src = src;
-    preview.classList.add('visible');
-    placeholder.style.display = 'none';
-  }
-
-  function hideCoverPreview() {
-    const preview = document.getElementById('cover-preview');
-    const placeholder = document.getElementById('cover-placeholder');
-    preview.classList.remove('visible');
-    preview.src = '';
-    placeholder.style.display = 'flex';
-  }
-
-  function resetCoverFields() {
-    currentCoverData = '';
-    document.getElementById('f-cover-file').value = '';
-    document.getElementById('f-cover-url').value = '';
-    hideCoverPreview();
-  }
-
-  function save() { localStorage.setItem('catalogo-v2', JSON.stringify(data)); }
-
-  // ── HEADER ──
-  function updateHeader() {
-    const name  = document.getElementById('edit-name').value || 'Seu Nome';
-    const label = document.getElementById('edit-label').value || 'Obras Completas';
-    const bio   = document.getElementById('edit-bio').value || 'Escritor(a), contador(a) de histórias.';
-
-    const parts = name.split(' ');
-    const last  = parts.pop();
-    const first = parts.join(' ');
-    document.getElementById('display-name').innerHTML =
-      first ? `${first} <em>${last}</em>` : `<em>${name}</em>`;
-    document.getElementById('display-label').textContent = label;
-    document.getElementById('display-bio').textContent = bio;
-    document.getElementById('footer-name').textContent = label + ' · ' + name;
-  }
-
-  function saveHeader() {
-    data.author.name  = document.getElementById('edit-name').value;
-    data.author.label = document.getElementById('edit-label').value || 'Obras Completas';
-    data.author.bio   = document.getElementById('edit-bio').value;
-    save();
-    const btn = document.querySelector('.btn-save-header');
-    btn.textContent = '✦ Salvo!';
-    setTimeout(() => btn.textContent = '✦ Salvar', 1500);
-  }
-
-  function loadHeader() {
-    document.getElementById('edit-name').value  = data.author.name;
-    document.getElementById('edit-label').value = data.author.label;
-    document.getElementById('edit-bio').value   = data.author.bio;
-    updateHeader();
-  }
-
-  // ── RENDER ──
-  function render() {
-    const list = document.getElementById('book-list');
-    document.getElementById('stat-num').textContent   = data.books.length;
-    document.getElementById('list-count').textContent = `${data.books.length} obra${data.books.length !== 1 ? 's' : ''}`;
-
-    if (data.books.length === 0) {
-      list.innerHTML = `<div style="padding:60px 0;text-align:center;color:var(--muted);font-style:italic;font-size:18px;">
-        Nenhuma obra ainda. Adicione sua primeira obra abaixo.
-      </div>`;
-      return;
-    }
-
-    list.innerHTML = data.books.map((b, i) => `
-      <div class="book-entry" style="animation-delay:${i*0.07}s">
-        <div class="book-num">${String(i+1).padStart(2,'0')}</div>
+  </header>  <main>
+    <section class="hero">
+      <div class="container hero-grid">
         <div>
-          ${b.cover
-            ? `<img class="book-cover-img" src="${b.cover}" alt="Capa de ${b.title}"/>`
-            : `<div class="book-cover-placeholder" onclick="openEdit(${b.id})">📖<br/>Sem capa</div>`}
-        </div>
-        <div class="book-body">
-          <div class="book-tags">
-            ${b.genre  ? `<span class="book-tag">${b.genre}</span>` : ''}
-            ${b.year   ? `<span class="book-tag">${b.year}</span>`  : ''}
+          <div class="eyebrow">Filosofia, ficção, reflexão e direito</div>
+          <h1>Livros que não douram a pílula.<br>Mais consciência. Menos ilusão.</h1>
+          <p class="lead">Uma página estável, simples e compatível com celular e computador. Sem scripts complicados. Sem cadastro interno. Só o que interessa: sua identidade de autor e seus livros com links diretos para a Amazon.</p>
+          <div class="authority">
+            <strong>João Gilberto de Camargo Brasio</strong><br>
+            Jurista • Professor de Direito Civil • Juiz de casamentos aposentado
           </div>
-          <div class="book-title-main">${b.title}</div>
-          ${b.subtitle ? `<div class="book-subtitle">${b.subtitle}</div>` : ''}
-          <div class="book-desc-main">${b.desc || ''}</div>
-        </div>
-        <div class="book-actions-side">
-          ${b.link
-            ? `<a class="btn-buy" href="${b.link}" target="_blank" rel="noopener">${b.btn || 'Comprar'}</a>`
-            : `<span class="btn-buy disabled">Sem link</span>`}
-          <button class="btn-edit-book" onclick="openEdit(${b.id})">✎ Editar</button>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#livros">→ Conheça os livros</a>
+            <a class="btn btn-secondary" href="#amazon">→ Ver na Amazon</a>
+          </div>
+        </div><div class="hero-card">
+      <div class="portrait">SUA FOTO DE AUTOR AQUI<br><br>Você pode trocar este bloco por uma imagem depois, mas a página já funciona perfeitamente assim.</div>
+      <p class="hero-quote">“A vida não é simples. Mas pode ser encarada com mais clareza.”</p>
+      <p class="hero-note">Esta versão foi simplificada para abrir corretamente no celular e no computador.</p>
+    </div>
+  </div>
+</section>
+
+<section id="destaque">
+  <div class="container">
+    <h2 class="section-title">Livro em destaque</h2>
+    <p class="section-text">Seu livro-âncora abre a página e posiciona imediatamente sua marca autoral.</p>
+    <div class="highlight">
+      <div class="highlight-cover">
+        <div class="cover-text">Como Viver<br>com Menos Peso</div>
+      </div>
+      <div>
+        <div class="badge">Destaque</div>
+        <h3>Como Viver com Menos Peso</h3>
+        <p>Um livro direto, maduro e sem ilusão romântica sobre a existência. Não promete fórmula. Propõe lucidez.</p>
+        <p>É a obra ideal para abrir sua página e apresentar sua voz ao leitor: firme, sóbria e sem autoengano.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://a.co/d/0eOLPk9n" target="_blank" rel="noopener noreferrer">→ Ver na Amazon</a>
+          <a class="btn btn-secondary" href="#livros">→ Explorar outros títulos</a>
         </div>
       </div>
-    `).join('');
-  }
+    </div>
+  </div>
+</section>
 
-  // ── MODAL ──
-  let editingId = null;
+<section id="livros">
+  <div class="container">
+    <h2 class="section-title">Catálogo</h2>
+    <p class="section-text">Versão final estática, leve e compatível com celular. Cada botão leva diretamente ao livro correspondente.</p>
 
-  function openModal() {
-    editingId = null;
-    document.getElementById('modal-title').textContent = 'Nova Obra';
-    document.getElementById('modal-sub').textContent   = 'Preencha os dados do livro.';
-    document.getElementById('modal-overlay').classList.add('open');
-    document.getElementById('btn-delete').style.display = 'none';
-    document.querySelector('.btn-modal-submit').textContent = 'Publicar Obra';
-    ['f-id','f-title','f-subtitle','f-genre','f-year','f-desc','f-link','f-btn'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    resetCoverFields();
-  }
+    <div class="book-grid">
+      <article class="book-card">
+        <div class="book-cover cover-blue"><div class="cover-label">Como Viver com Menos Peso</div></div>
+        <div class="book-content">
+          <h3>Como Viver com Menos Peso</h3>
+          <p>Sem frases fáceis. Uma forma mais lúcida de viver com menos peso.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/0eOLPk9n" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-  function openEdit(id) {
-    const b = data.books.find(x => x.id === id);
-    if (!b) return;
-    editingId = id;
-    document.getElementById('modal-title').textContent = 'Editar Obra';
-    document.getElementById('modal-sub').textContent   = 'Atualize os dados do livro.';
-    document.getElementById('f-id').value       = b.id;
-    document.getElementById('f-title').value    = b.title;
-    document.getElementById('f-subtitle').value = b.subtitle || '';
-    document.getElementById('f-genre').value    = b.genre || '';
-    document.getElementById('f-year').value     = b.year  || '';
-    document.getElementById('f-desc').value     = b.desc  || '';
-    document.getElementById('f-link').value     = b.link  || '';
-    document.getElementById('f-btn').value      = b.btn   || '';
-    resetCoverFields();
-    if (b.cover) {
-      currentCoverData = b.cover;
-      showCoverPreview(b.cover);
-      // if it's a URL, show in url field
-      if (b.cover.startsWith('http')) document.getElementById('f-cover-url').value = b.cover;
-    }
-    document.getElementById('btn-delete').style.display = 'block';
-    document.querySelector('.btn-modal-submit').textContent = 'Salvar Alterações';
-    document.getElementById('modal-overlay').classList.add('open');
-  }
+      <article class="book-card">
+        <div class="book-cover cover-gold"><div class="cover-label">Tomando um Chopp com Schopenhauer</div></div>
+        <div class="book-content">
+          <h3>Tomando um Chopp com Schopenhauer</h3>
+          <p>Desejo, sofrimento e lucidez — sem verniz, sem clichê, sem autoengano.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/03W8hYGq" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-  function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
-  }
+      <article class="book-card">
+        <div class="book-cover cover-night"><div class="cover-label">Com Nietzsche em Chichén Itzá</div></div>
+        <div class="book-content">
+          <h3>Com Nietzsche em Chichén Itzá</h3>
+          <p>O eterno retorno das civilizações, da força e da ruína.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/0cbVaMAr" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-  function handleOverlay(e) {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-  }
+      <article class="book-card">
+        <div class="book-cover cover-jungle"><div class="cover-label">A Cratera</div></div>
+        <div class="book-content">
+          <h3>A Cratera</h3>
+          <p>Quinze dias presos na selva. Algo antigo os observa.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/06t4sIs4" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-  function saveBook() {
-    const title = document.getElementById('f-title').value.trim();
-    if (!title) { alert('O título é obrigatório.'); return; }
+      <article class="book-card">
+        <div class="book-cover cover-green"><div class="cover-label">O Homem que Viveu Três Séculos</div></div>
+        <div class="book-content">
+          <h3>O Homem que Viveu Três Séculos</h3>
+          <p>O tempo muda tudo. Menos o essencial da natureza humana.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/0hVoV0uJ" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-    const book = {
-      id:       editingId || Date.now(),
-      title,
-      subtitle: document.getElementById('f-subtitle').value.trim(),
-      genre:    document.getElementById('f-genre').value.trim(),
-      year:     document.getElementById('f-year').value.trim(),
-      desc:     document.getElementById('f-desc').value.trim(),
-      link:     document.getElementById('f-link').value.trim(),
-      btn:      document.getElementById('f-btn').value.trim() || 'Comprar · Amazon',
-      cover:    currentCoverData || '',
-    };
+      <article class="book-card">
+        <div class="book-cover cover-blue"><div class="cover-label">Do Juridiquês ao Raciocínio Jurídico</div></div>
+        <div class="book-content">
+          <h3>Do Juridiquês ao Raciocínio Jurídico</h3>
+          <p>Direito claro. Pensamento estruturado. Linguagem menos obscura.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/0hacF7SY" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-    if (editingId) {
-      const idx = data.books.findIndex(b => b.id === editingId);
-      if (idx !== -1) data.books[idx] = book;
-    } else {
-      data.books.push(book);
-    }
+      <article class="book-card">
+        <div class="book-cover cover-warm"><div class="cover-label">Não Quero Me Casar — E Agora?</div></div>
+        <div class="book-content">
+          <h3>Não Quero Me Casar — E Agora?</h3>
+          <p>Direitos, riscos e escolhas na vida a dois — inclusive a escolha de não casar.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/03IO8K5Q" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
 
-    save();
-    closeModal();
-    render();
-  }
+      <article class="book-card">
+        <div class="book-cover cover-light"><div class="cover-label">Vou Me Casar. E Agora?</div></div>
+        <div class="book-content">
+          <h3>Vou Me Casar. E Agora?</h3>
+          <p>Lei, cerimônia, festa e gastronomia — antes do “sim”, entenda o que está em jogo.</p>
+          <div class="book-actions"><a class="amazon" href="https://a.co/d/02rrEGXu" target="_blank" rel="noopener noreferrer">Ver na Amazon</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
 
-  function deleteBook() {
-    if (!editingId) return;
-    if (!confirm('Remover esta obra do catálogo?')) return;
-    data.books = data.books.filter(b => b.id !== editingId);
-    save();
-    closeModal();
-    render();
-  }
+<section id="autor">
+  <div class="container">
+    <h2 class="section-title">Sobre o autor</h2>
+    <p class="section-text">Uma presença autoral sóbria, clara e sem promessas fáceis.</p>
+    <div class="about">
+      <div class="about-card">
+        <h3>Autor com identidade própria</h3>
+        <p>J. G. Brasio escreve a partir de uma combinação rara: experiência jurídica, observação humana e visão filosófica sem enfeites. Seus livros transitam entre a reflexão, a ficção e o pensamento aplicado à vida real.</p>
+      </div>
+      <div class="about-card">
+        <h3>Sem promessa fácil</h3>
+        <p>O leitor não encontra fórmula mágica. Encontra clareza. A proposta não é dourar a pílula, mas olhar a realidade com mais maturidade, sobriedade e menos ilusão.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  // ── INIT ──
-  loadHeader();
-  render();
-</script>
+<section class="closing" id="amazon">
+  <div class="container">
+    <div class="closing-box">
+      <h2>Leia na Amazon</h2>
+      <p>Esta versão está pronta para funcionar no celular e no computador. Se quiser, depois eu posso fazer uma segunda versão com suas capas reais e sua foto integrada.</p>
+      <div class="cta-row" style="justify-content:center;">
+        <a class="btn btn-primary" href="https://a.co/d/0eOLPk9n" target="_blank" rel="noopener noreferrer">→ Abrir livro em destaque</a>
+        <a class="btn btn-secondary" href="#livros">→ Voltar ao catálogo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>  <footer>
+    © 2026 J. G. Brasio — Todos os direitos reservados.
+  </footer>
 </body>
 </html>
